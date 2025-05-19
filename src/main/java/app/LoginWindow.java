@@ -26,7 +26,11 @@ public class LoginWindow extends Application {
         VBox layout = new VBox(10, adminBtn, userBtn);
         layout.setStyle("-fx-padding: 20; -fx-alignment: center");
 
-        primaryStage.setScene(new Scene(layout, 300, 150));
+        // 🌐 Jelenet létrehozása és CSS betöltése
+        Scene scene = new Scene(layout, 300, 150);
+        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+
+        primaryStage.setScene(scene);
         primaryStage.setTitle("Bejelentkezés");
         primaryStage.show();
     }

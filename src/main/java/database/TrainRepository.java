@@ -91,7 +91,6 @@ public class TrainRepository {
         }
     }
 
-    // Fő getAllTrains() metódus, amit a GUI is használ
     public static List<Train> getAllTrains() {
         List<Train> trains = new ArrayList<>();
         String sql = "SELECT * FROM trains";
@@ -108,7 +107,12 @@ public class TrainRepository {
                 train.setCapacity(rs.getInt("capacity"));
                 train.setDepartureTime(rs.getString("departure_time"));
                 train.setArrivalTime(rs.getString("arrival_time"));
-                train.setCreatedAt(rs.getString("created_at"));
+                // Ezt kezeljük try-catch-ben, ha nincs created_at mező
+                try {
+                    train.setCreatedAt(rs.getString("created_at"));
+                } catch (SQLException e) {
+                    train.setCreatedAt(null);
+                }
 
                 trains.add(train);
             }
@@ -119,6 +123,7 @@ public class TrainRepository {
 
         return trains;
     }
+
     public static Train addDummyTrain() {
         boolean success = addTrain("Új Vonat", 100);
         if (success) {
@@ -126,5 +131,18 @@ public class TrainRepository {
             return list.get(list.size() - 1); // legutóbbi
         }
         return null;
+    }
+
+
+    // --- EZ EGY SEGÉD METÓDUS TESZTELÉSHEZ, KIÍRJA A KONZOLRA AZ ÖSSZES VONATOT ---
+    public static void testPrintAllTrains() {
+        List<Train> trains = getAllTrains();
+        if (trains.isEmpty()) {
+            System.out.println("Nincs vonat az adatbázisban.");
+        } else {
+            for (Train t : trains) {
+                System.out.println(t);
+            }
+        }
     }
 }

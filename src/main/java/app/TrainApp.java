@@ -14,6 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import model.Train;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TrainApp extends Application {
@@ -49,21 +50,33 @@ public class TrainApp extends Application {
         arrivalColumn.setCellValueFactory(new PropertyValueFactory<>("arrivalTime"));
 
         tableView.getColumns().addAll(idColumn, nameColumn, typeColumn, capacityColumn, departureColumn, arrivalColumn);
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        // Betöltjük az adatokat
+        // 🔍 Tesztelés
         List<Train> trainList = TrainRepository.getAllTrains();
+        System.out.println("Lekért vonatok száma: " + trainList.size());
+        for (Train t : trainList) {
+            System.out.println(t);
+        }
+
+        // ➕ Tesztadatok, ha nincs adatbázis
+        if (trainList.isEmpty()) {
+            trainList = new ArrayList<>();
+            Train dummy = new Train();
+            dummy.setTrainId(1);
+            dummy.setTrainName("IC 123");
+            dummy.setTrainType("InterCity");
+            dummy.setCapacity(300);
+            dummy.setDepartureTime("10:30");
+            dummy.setArrivalTime("13:00");
+            trainList.add(dummy);
+        }
+
         ObservableList<Train> trainData = FXCollections.observableArrayList(trainList);
         FilteredList<Train> filteredData = new FilteredList<>(trainData, p -> true);
         tableView.setItems(filteredData);
 
-        // Vissza gomb
-        Button backButton = new Button("Vissza");
-        backButton.setOnAction(e -> {
-            new LoginWindow().start(new Stage());
-            primaryStage.close();
-        });
-
-        // Szűrőmező
+        // Keresőmező
         TextField filterField = new TextField();
         filterField.setPromptText("Keresés név vagy típus szerint...");
         filterField.textProperty().addListener((obs, oldVal, newVal) -> {
@@ -73,16 +86,23 @@ public class TrainApp extends Application {
             );
         });
 
-        HBox topBar = new HBox(10, backButton, filterField);
+        // Admin funkciók
+        HBox topBar = new HBox(10);
+        topBar.setStyle("-fx-padding: 10;");
+        Button backButton = new Button("Vissza");
+        backButton.setOnAction(e -> {
+            new LoginWindow().start(new Stage());
+            primaryStage.close();
+        });
 
-        // Admin gombok
+        topBar.getChildren().addAll(backButton, filterField);
+
         if (isAdmin) {
             Button addButton = new Button("➕ Hozzáadás");
             Button deleteButton = new Button("🗑️ Törlés");
 
             addButton.setOnAction(e -> {
-                // Ide jöhet vonat hozzáadás UI
-                System.out.println("Vonat hozzáadása (később megvalósítható)");
+                System.out.println("Hozzáadás");
             });
 
             deleteButton.setOnAction(e -> {
@@ -93,34 +113,28 @@ public class TrainApp extends Application {
                 }
             });
 
+            topBar.getChildren().addAll(addButton, deleteButton);
+
             tableView.setRowFactory(tv -> {
                 TableRow<Train> row = new TableRow<>();
                 row.setOnMouseClicked(event -> {
                     if (event.getClickCount() == 2 && !row.isEmpty() && event.getButton() == MouseButton.PRIMARY) {
                         Train train = row.getItem();
-                        System.out.println("Szerkesztés (dupla katt): " + train.getTrainName());
-                        // Ide jöhet vonat szerkesztés UI
+                        System.out.println("Szerkesztés: " + train.getTrainName());
                     }
                 });
                 return row;
             });
-
-            topBar.getChildren().addAll(addButton, deleteButton);
         }
-
-        topBar.setStyle("-fx-padding: 10;");
 
         BorderPane root = new BorderPane();
         root.setTop(topBar);
         root.setCenter(tableView);
 
         Scene scene = new Scene(root, 800, 500);
+        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.setTitle("Vonatok listája - " + (isAdmin ? "Állomásfőnök" : "Utas"));
         primaryStage.show();
-    }
-
-    public static void main(String[] args) {
-        Application.launch(LoginWindow.class);
     }
 }

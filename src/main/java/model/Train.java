@@ -73,6 +73,7 @@ public class Train {
 
     @Override
     public String toString() {
-        return trainName + " (" + trainType + ")";
+        return "Train{id=" + trainId + ", name=" + trainName + ", type=" + trainType + ", capacity=" + capacity +
+                ", departure=" + departureTime + ", arrival=" + arrivalTime + "}";
     }
 }
