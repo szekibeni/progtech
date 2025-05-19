@@ -209,7 +209,7 @@ public class TrainApp extends Application {
         Label trainLabel = new Label("Vonat: " + train.getTrainName());
         trainLabel.getStyleClass().add("content-label");
 
-        Label departureLabel = new Label("Indulás időpontja: " + train.getDepartureTime());
+        Label departureLabel = new Label("Indulás időpontja: " + train.getArrivalTime());
         departureLabel.getStyleClass().add("content-label");
 
         Button closeButton = new Button("Bezárás");
