@@ -14,4 +14,5 @@ module org.example.progtech {
 
     opens org.example.progtech to javafx.fxml;
     exports org.example.progtech;
+    exports app;
 }

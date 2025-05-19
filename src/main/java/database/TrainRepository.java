@@ -119,4 +119,12 @@ public class TrainRepository {
 
         return trains;
     }
+    public static Train addDummyTrain() {
+        boolean success = addTrain("Új Vonat", 100);
+        if (success) {
+            List<Train> list = getAllTrains();
+            return list.get(list.size() - 1); // legutóbbi
+        }
+        return null;
+    }
 }
