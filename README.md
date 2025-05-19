@@ -102,5 +102,5 @@ class Train {
 
 ---
 
-**Készítette:** *[Szeghalmi Bence, Polatschek Péter]*  
+**Készítette:** *Szeghalmi Bence, Polatschek Péter*  
 **Dátum:** 2025.05.19
