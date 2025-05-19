@@ -30,20 +30,45 @@
     -fx-table-cell-border-color: #cccccc;
 }
 
+/* Sötétszürke tábla fejlécek */
 .table-view .column-header-background {
-    -fx-background-color: #002147;
+    -fx-background-color: #333333;  /* még sötétebb szürke */
 }
 
 .table-view .column-header, .table-view .filler {
     -fx-size: 30px;
-    -fx-border-color: transparent transparent #cccccc transparent;
+    -fx-border-color: transparent transparent #333333 transparent; /* sötét alsó vonal */
     -fx-border-width: 0 0 1 0;
     -fx-alignment: CENTER_LEFT;
     -fx-font-weight: bold;
     -fx-text-fill: white;
 }
 
+/* Kijelölt sor stílusa */
 .table-row-cell:filled:selected {
     -fx-background-color: #FFD700;
     -fx-text-fill: #002147;
+}
+.header-label {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.content-label {
+    -fx-font-size: 16px;
+    -fx-text-fill: #34495e;
+}
+
+.btn-primary {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 15 8 15;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+}
+
+.btn-primary:hover {
+    -fx-background-color: #2980b9;
 }

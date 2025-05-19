@@ -13,24 +13,28 @@ public class Main {
             if (conn != null) {
                 System.out.println("Kapcsolat sikeresen létrejött az adatbázissal!");
 
-                if (TrainRepository.addTrain("Intercity", 300)) {
+                // Add Intercity vonat
+                if (TrainRepository.addTrain("Intercity", "IC", 300, "08:00", "12:00")) {
                     System.out.println("Intercity vonat sikeresen hozzáadva.");
                 } else {
                     System.out.println("Intercity vonat hozzáadása sikertelen.");
                 }
 
-                if (TrainRepository.addTrain("Express", 200)) {
+                // Add Express vonat
+                if (TrainRepository.addTrain("Express", "Expressz", 200, "10:00", "13:30")) {
                     System.out.println("Express vonat sikeresen hozzáadva.");
                 } else {
                     System.out.println("Express vonat hozzáadása sikertelen.");
                 }
 
+                // Kapacitás frissítése az 1-es ID-jű vonatnál
                 if (TrainRepository.updateTrainCapacity(1, 350)) {
                     System.out.println("Kapacitás frissítése sikeres az 1-es ID-jű vonatnál.");
                 } else {
                     System.out.println("Kapacitás frissítése sikertelen az 1-es ID-jű vonatnál.");
                 }
 
+                // Törlés a 2-es ID-jű vonatnál
                 if (TrainRepository.deleteTrain(2)) {
                     System.out.println("A 2-es ID-jű vonat sikeresen törölve.");
                 } else {
@@ -38,7 +42,7 @@ public class Main {
                 }
 
                 System.out.println("Az összes vonat:");
-                TrainRepository.getAllTrains();
+                TrainRepository.getAllTrainsPrint();
             }
         } catch (SQLException e) {
             System.out.println("Hiba történt az adatbázis csatlakozás közben: " + e.getMessage());
