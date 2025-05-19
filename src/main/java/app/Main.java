@@ -8,21 +8,40 @@ import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) {
-        TrainRepository.addTrain("Intercity", 300);
-        TrainRepository.addTrain("Express", 200);
-        TrainRepository.updateTrainCapacity(1, 350); // Az 1-es ID-jű vonat kapacitásának frissítése
-        TrainRepository.deleteTrain(2); // Az ID: 2-es rekord törlése
-
-
         try {
             Connection conn = Database.connect();
             if (conn != null) {
                 System.out.println("Kapcsolat sikeresen létrejött az adatbázissal!");
+
+                if (TrainRepository.addTrain("Intercity", 300)) {
+                    System.out.println("Intercity vonat sikeresen hozzáadva.");
+                } else {
+                    System.out.println("Intercity vonat hozzáadása sikertelen.");
+                }
+
+                if (TrainRepository.addTrain("Express", 200)) {
+                    System.out.println("Express vonat sikeresen hozzáadva.");
+                } else {
+                    System.out.println("Express vonat hozzáadása sikertelen.");
+                }
+
+                if (TrainRepository.updateTrainCapacity(1, 350)) {
+                    System.out.println("Kapacitás frissítése sikeres az 1-es ID-jű vonatnál.");
+                } else {
+                    System.out.println("Kapacitás frissítése sikertelen az 1-es ID-jű vonatnál.");
+                }
+
+                if (TrainRepository.deleteTrain(2)) {
+                    System.out.println("A 2-es ID-jű vonat sikeresen törölve.");
+                } else {
+                    System.out.println("A 2-es ID-jű vonat törlése sikertelen.");
+                }
+
+                System.out.println("Az összes vonat:");
+                TrainRepository.getAllTrains();
             }
         } catch (SQLException e) {
             System.out.println("Hiba történt az adatbázis csatlakozás közben: " + e.getMessage());
         }
-        TrainRepository.getAllTrains();
-
     }
 }

@@ -1,68 +1,122 @@
 package database;
 
+import model.Train;
+
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TrainRepository {
 
-    public static void addTrain(String name, int capacity) {
-        String sql = "INSERT INTO trains (name, capacity) VALUES (?, ?)"; // SQL beszúrási utasítás
+    public static boolean addTrain(String trainName, int capacity) {
+        String sql = "INSERT INTO trains (train_name, capacity) VALUES (?, ?)";
 
-        try (Connection conn = Database.connect(); // kapcsolat létrehozása
-             PreparedStatement pstmt = conn.prepareStatement(sql)) { // PreparedStatement használata SQL lekérdezéshez
-            pstmt.setString(1, name); // az első helyettesítő (?)
-            pstmt.setInt(2, capacity); // a második helyettesítő (?)
-
-            pstmt.executeUpdate(); // végrehajtás
-            System.out.println("Új vonat sikeresen hozzáadva!");
+        try (Connection conn = Database.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, trainName);
+            pstmt.setInt(2, capacity);
+            int rows = pstmt.executeUpdate();
+            return rows > 0;
         } catch (SQLException e) {
             System.out.println("Hiba történt a vonat hozzáadásakor: " + e.getMessage());
+            return false;
         }
     }
-    public static void getAllTrains() {
-        String sql = "SELECT * FROM trains"; // Lekérdezés a tábla összes rekordjára
+
+    public static void getAllTrainsPrint() {
+        String sql = "SELECT * FROM trains";
 
         try (Connection conn = Database.connect();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
+                int id = rs.getInt("train_id");
+                String name = rs.getString("train_name");
+                String type = rs.getString("train_type");
                 int capacity = rs.getInt("capacity");
-                System.out.println("ID: " + id + ", Name: " + name + ", Capacity: " + capacity);
+                String departure = rs.getString("departure_time");
+                String arrival = rs.getString("arrival_time");
+
+                System.out.println("ID: " + id + ", Név: " + name + ", Típus: " + type + ", Kapacitás: " + capacity +
+                        ", Indulás: " + departure + ", Érkezés: " + arrival);
             }
 
         } catch (SQLException e) {
             System.out.println("Hiba történt az adatok lekérdezésekor: " + e.getMessage());
         }
     }
-    public static void updateTrainCapacity(int id, int newCapacity) {
-        String sql = "UPDATE trains SET capacity = ? WHERE id = ?"; // SQL frissítési utasítás
+
+    public static boolean updateTrainCapacity(int trainId, int newCapacity) {
+        String sql = "UPDATE trains SET capacity = ? WHERE train_id = ?";
 
         try (Connection conn = Database.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, newCapacity); // új kapacitás
-            pstmt.setInt(2, id); // frissítendő sor ID-je
 
-            pstmt.executeUpdate();
-            System.out.println("Kapacitás sikeresen frissítve!");
+            pstmt.setInt(1, newCapacity);
+            pstmt.setInt(2, trainId);
+
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Kapacitás sikeresen frissítve!");
+                return true;
+            } else {
+                System.out.println("Nem található vonat a megadott ID-val: " + trainId);
+                return false;
+            }
         } catch (SQLException e) {
             System.out.println("Hiba történt a kapacitás frissítésekor: " + e.getMessage());
+            return false;
         }
     }
-    public static void deleteTrain(int id) {
-        String sql = "DELETE FROM trains WHERE id = ?"; // SQL törlési utasítás
+
+    public static boolean deleteTrain(int trainId) {
+        String sql = "DELETE FROM trains WHERE train_id = ?";
 
         try (Connection conn = Database.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, id); // törlendő rekord ID-je
+            pstmt.setInt(1, trainId);
 
-            pstmt.executeUpdate();
-            System.out.println("Rekord sikeresen törölve!");
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Rekord sikeresen törölve!");
+                return true;
+            } else {
+                System.out.println("Nem található rekord a megadott ID-val: " + trainId);
+                return false;
+            }
         } catch (SQLException e) {
             System.out.println("Hiba történt a rekord törlésekor: " + e.getMessage());
+            return false;
         }
     }
 
+    // Fő getAllTrains() metódus, amit a GUI is használ
+    public static List<Train> getAllTrains() {
+        List<Train> trains = new ArrayList<>();
+        String sql = "SELECT * FROM trains";
 
+        try (Connection conn = Database.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                Train train = new Train();
+                train.setTrainId(rs.getInt("train_id"));
+                train.setTrainName(rs.getString("train_name"));
+                train.setTrainType(rs.getString("train_type"));
+                train.setCapacity(rs.getInt("capacity"));
+                train.setDepartureTime(rs.getString("departure_time"));
+                train.setArrivalTime(rs.getString("arrival_time"));
+                train.setCreatedAt(rs.getString("created_at"));
+
+                trains.add(train);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Hiba történt az adatok lekérdezésekor: " + e.getMessage());
+        }
+
+        return trains;
+    }
 }
