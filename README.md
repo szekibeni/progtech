@@ -34,7 +34,6 @@ A TrainApp egy JavaFX-alapú asztali alkalmazás, amely egy vonatmenetrend-kezel
 
 ## 5. Adatmodell
 
-```java
 class Train {
     private int trainId;
     private String trainName;
