@@ -1,0 +1,10 @@
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<TableView fx:id="tableView" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.MainController">
+    <columns>
+        <TableColumn fx:id="departureColumn" text="Indulás" prefWidth="150" />
+        <TableColumn fx:id="arrivalColumn" text="Érkezés" prefWidth="150" />
+        <TableColumn fx:id="timeColumn" text="Idő" prefWidth="100" />
+        <TableColumn fx:id="trainNumberColumn" text="Vonatszám" prefWidth="100" />
+    </columns>
+</TableView>
