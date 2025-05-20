@@ -22,6 +22,6 @@ public class NoMatchStrategy implements DestinationStrategy {
 
     @Override
     public boolean matches(Train train) {
-        return true; // mindig igaz, azaz nem szűr semmit
+        return true;
     }
 }

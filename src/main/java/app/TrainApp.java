@@ -25,9 +25,9 @@ public class TrainApp extends Application {
 
     private static boolean isAdmin;
 
-    private ObservableList<Train> masterData;          // az összes adat
-    private FilteredList<Train> filteredData;          // szűrt lista a TableView-hoz
-    private DestinationStrategy currentStrategy;       // a kiválasztott szűrési stratégia
+    private ObservableList<Train> masterData;
+    private FilteredList<Train> filteredData;
+    private DestinationStrategy currentStrategy;
 
     public TrainApp() {
     }

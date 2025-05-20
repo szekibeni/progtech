@@ -28,7 +28,7 @@ public class MainController {
     @FXML
     private TableColumn<Train, String> arrivalColumn;
 
-    // Lekéri az összes vonatot az adatbázisból
+
     public List<Train> getAllTrains() {
         List<Train> trains = new ArrayList<>();
         String query = "SELECT * FROM trains";
@@ -45,8 +45,7 @@ public class MainController {
                 train.setCapacity(rs.getInt("capacity"));
                 train.setDepartureTime(rs.getString("departure_time"));
                 train.setArrivalTime(rs.getString("arrival_time"));
-                // Ha a createdAt mezőt is használod, itt beállíthatod
-                // train.setCreatedAt(rs.getString("created_at"));
+
 
                 trains.add(train);
             }
@@ -120,18 +119,18 @@ public class MainController {
 
     @FXML
     public void initialize() {
-        // CellValueFactory-k beállítása az oszlopokhoz
+
         trainNameColumn.setCellValueFactory(new PropertyValueFactory<>("trainName"));
         trainTypeColumn.setCellValueFactory(new PropertyValueFactory<>("trainType"));
         capacityColumn.setCellValueFactory(new PropertyValueFactory<>("capacity"));
         departureColumn.setCellValueFactory(new PropertyValueFactory<>("departureTime"));
         arrivalColumn.setCellValueFactory(new PropertyValueFactory<>("arrivalTime"));
 
-        // Adatok betöltése és ObservableList-be csomagolása
+
         List<Train> trains = getAllTrains();
         ObservableList<Train> observableTrains = FXCollections.observableArrayList(trains);
 
-        // Adatok beállítása a táblázatba
+
         tableView.setItems(observableTrains);
     }
 }

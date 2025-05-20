@@ -26,7 +26,7 @@ public class TrainRepository {
         }
     }
 
-    // --- ÚJ METÓDUS: Train objektumot vár ---
+
     public static boolean addTrain(Train train) {
         String sql = "INSERT INTO trains (train_name, train_type, capacity, departure_time, arrival_time) VALUES (?, ?, ?, ?, ?)";
 
@@ -133,7 +133,7 @@ public class TrainRepository {
                 train.setCapacity(rs.getInt("capacity"));
                 train.setDepartureTime(rs.getString("departure_time"));
                 train.setArrivalTime(rs.getString("arrival_time"));
-                // Ezt kezeljük try-catch-ben, ha nincs created_at mező
+
                 try {
                     train.setCreatedAt(rs.getString("created_at"));
                 } catch (SQLException e) {
@@ -160,7 +160,6 @@ public class TrainRepository {
     }
 
 
-    // --- EZ EGY SEGÉD METÓDUS TESZTELÉSHEZ, KIÍRJA A KONZOLRA AZ ÖSSZES VONATOT ---
     public static void testPrintAllTrains() {
         List<Train> trains = getAllTrains();
         if (trains.isEmpty()) {
@@ -180,7 +179,6 @@ public class TrainRepository {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                // int id = rs.getInt("train_id"); // ezt törölheted vagy használaton kívül hagyhatod
                 String name = rs.getString("train_name");
                 String type = rs.getString("train_type");
                 int capacity = rs.getInt("capacity");

@@ -33,14 +33,14 @@ public class LoginWindow extends Application {
         layout.setStyle("-fx-padding: 40; -fx-alignment: center; -fx-background-color: linear-gradient(to bottom, #002147, #003366);");
         layout.setAlignment(Pos.CENTER);
 
-        // Ablak mérete megegyezik a TrainApp-ével
+
         Scene scene = new Scene(layout, 800, 600);
         scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
         primaryStage.setScene(scene);
         primaryStage.setTitle("Bejelentkezés");
 
-        // Itt jön az ikon beállítása
+
         Image icon = new Image(getClass().getResourceAsStream("/prog.png"));
         primaryStage.getIcons().add(icon);
 

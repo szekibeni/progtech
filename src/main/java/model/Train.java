@@ -8,13 +8,13 @@ public class Train {
     private int capacity;
     private String departureTime;
     private String arrivalTime;
-    private String createdAt; // opcionális, ha szükséged van rá
+    private String createdAt;
 
     public Train() {
-        // üres konstruktor az FXML és adatbázis betöltéshez
+
     }
 
-    // Getterek és setterek
+
     public int getTrainId() {
         return trainId;
     }
