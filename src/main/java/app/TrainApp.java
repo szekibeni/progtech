@@ -14,7 +14,10 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import model.Train;
 import strategy.*;
-
+import factory.TrainFactory; // felülre
+import command.Command;
+import command.AddTrainCommand;
+import command.DeleteTrainCommand;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -160,15 +163,16 @@ public class TrainApp extends Application {
         Button addButton = new Button("➕ Hozzáadás");
         addButton.setOnAction(e -> {
             try {
-                Train newTrain = new Train();
-                newTrain.setTrainName(nameField.getText());
-                newTrain.setTrainType(typeField.getText());
-                newTrain.setCapacity(Integer.parseInt(capacityField.getText()));
-                newTrain.setDepartureTime(departureField.getText());
-                newTrain.setArrivalTime(arrivalField.getText());
+                Train newTrain = TrainFactory.createTrain(
+                        nameField.getText(),
+                        typeField.getText(),
+                        Integer.parseInt(capacityField.getText()),
+                        departureField.getText(),
+                        arrivalField.getText()
+                );
 
-                TrainRepository.addTrain(newTrain);
-                masterData.add(newTrain);
+                Command addCommand = new AddTrainCommand(newTrain, masterData);
+                addCommand.execute();
 
                 nameField.clear();
                 typeField.clear();
@@ -185,8 +189,8 @@ public class TrainApp extends Application {
         deleteButton.setOnAction(e -> {
             Train selected = tableView.getSelectionModel().getSelectedItem();
             if (selected != null) {
-                TrainRepository.deleteTrain(selected.getTrainId());
-                masterData.remove(selected);
+                Command deleteCommand = new DeleteTrainCommand(selected, masterData);
+                deleteCommand.execute();
             }
         });
 
