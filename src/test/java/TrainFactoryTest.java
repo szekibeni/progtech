@@ -1,9 +1,8 @@
-/*
-package factory;
+
 
 import model.Train;
 import org.junit.jupiter.api.Test;
-
+import factory.TrainFactory;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TrainFactoryTest {
@@ -20,4 +19,4 @@ class TrainFactoryTest {
         assertEquals("13:00", train.getArrivalTime());
     }
 }
-*/
+

@@ -1,4 +1,3 @@
-/*
 package command;
 
 import model.Train;
@@ -6,7 +5,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AddTrainCommandTest {
@@ -36,4 +37,3 @@ class AddTrainCommandTest {
         assertEquals(testTrain, trainList.get(0));
     }
 }
-*/

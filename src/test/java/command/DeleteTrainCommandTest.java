@@ -1,5 +1,5 @@
-/*
 package command;
+
 
 import model.Train;
 import javafx.collections.FXCollections;
@@ -36,4 +36,4 @@ class DeleteTrainCommandTest {
         assertEquals(0, trainList.size());
     }
 }
-*/
+
